@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/model/move_model.dart';
+import 'package:netflix_clone/widgets/carousel_Image.dart';
 
 // 영화 정보, 미리보기 화면
 class HomeScreen extends StatefulWidget {
@@ -9,6 +10,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   List<Movie> movies = [
+    Movie.formMap({
+      'title': '상견리',
+      'keyword': '사랑/판타지/로맨스',
+      'poster': 'images/mw2lS4rjo5lt4v2L2tI6xaVJCgM.jpeg',
+      'like': false,
+    }),
+    Movie.formMap({
+      'title': '상견리',
+      'keyword': '사랑/판타지/로맨스',
+      'poster': 'images/mw2lS4rjo5lt4v2L2tI6xaVJCgM.jpeg',
+      'like': true,
+    }),
     Movie.formMap({
       'title': '상견리',
       'keyword': '사랑/판타지/로맨스',
@@ -24,7 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return TabBar();
+    return ListView(children: [
+      Stack(children: [
+        CarouselImage(movies),
+        TabBar(),
+      ],)
+    ],);
   }
 }
 
