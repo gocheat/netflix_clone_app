@@ -23,9 +23,9 @@ class _MyAppState extends State<MyApp> {
             accentColor: Colors.white),
         home: DefaultTabController(
           length: 4,
-          child: Scaffold(
-            body: SafeArea(
-              child: TabBarView(
+          child: SafeArea(
+            child: Scaffold(
+              body: TabBarView(
                 // 탭 화면을 마우스 모션으로 변경하지 않겠다는 의미
                 physics: NeverScrollableScrollPhysics(),
                 children: [
@@ -47,8 +47,8 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
+              bottomNavigationBar: BottomBar(),
             ),
-            bottomNavigationBar: BottomBar(),
           ),
         ));
   }

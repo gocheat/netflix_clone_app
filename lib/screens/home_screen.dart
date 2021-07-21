@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/model/move_model.dart';
+import 'package:netflix_clone/widgets/box_slider.dart';
 import 'package:netflix_clone/widgets/carousel_Image.dart';
+import 'package:netflix_clone/widgets/circle_slider.dart';
 
 // 영화 정보, 미리보기 화면
 class HomeScreen extends StatefulWidget {
@@ -8,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   List<Movie> movies = [
     Movie.formMap({
       'title': '상견리',
@@ -27,6 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
       'keyword': '사랑/판타지/로맨스',
       'poster': 'images/mw2lS4rjo5lt4v2L2tI6xaVJCgM.jpeg',
       'like': false,
+    }),
+    Movie.formMap({
+      'title': '상견리',
+      'keyword': '사랑/판타지/로맨스',
+      'poster': 'images/mw2lS4rjo5lt4v2L2tI6xaVJCgM.jpeg',
+      'like': false,
     })
   ];
 
@@ -37,12 +44,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
-      Stack(children: [
-        CarouselImage(movies),
+    return Stack(
+      children: [
+        ListView(children: [
+          CarouselImage(movies),
+          CircleSlider(
+            movies: movies,
+          ),
+          BoxSlider(
+            movies: movies,
+          )
+        ]),
         TabBar(),
-      ],)
-    ],);
+      ],
+    );
   }
 }
 
