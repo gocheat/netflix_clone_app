@@ -61,8 +61,25 @@ class _CarouselImageState extends State<CarouselImage> {
                     children: [
                       likes[_currentPage]
                           ? IconButton(
-                              onPressed: () {}, icon: Icon(Icons.check))
-                          : IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                              onPressed: () {
+                                setState(() {
+                                  likes[_currentPage] = true;
+                                  movies[_currentPage]
+                                      .reference
+                                      .update({'like': likes[_currentPage]});
+                                });
+                              },
+                              icon: Icon(Icons.check))
+                          : IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  likes[_currentPage] = false;
+                                  movies[_currentPage]
+                                      .reference
+                                      .update({'like': likes[_currentPage]});
+                                });
+                              },
+                              icon: Icon(Icons.add)),
                       Text(
                         "내가 찜한 콘텐츠",
                         style: TextStyle(
@@ -100,11 +117,16 @@ class _CarouselImageState extends State<CarouselImage> {
                   padding: EdgeInsets.only(right: 10),
                   child: Column(
                     children: [
-                      IconButton(onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(fullscreenDialog: true, builder: (context){
-                          return DetailScreen(movie: movies[_currentPage]);
-                        }));
-                      }, icon: Icon(Icons.info)),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                fullscreenDialog: true,
+                                builder: (context) {
+                                  return DetailScreen(
+                                      movie: movies[_currentPage]);
+                                }));
+                          },
+                          icon: Icon(Icons.info)),
                       Text("정보",
                           style: TextStyle(
                             fontSize: 13,
