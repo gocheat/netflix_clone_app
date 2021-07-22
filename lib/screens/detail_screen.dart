@@ -31,7 +31,7 @@ class _DetailScreenState extends State<DetailScreen> {
             width: double.maxFinite,
             decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage(widget.movie.poster),
+              image: NetworkImage(widget.movie.poster),
               fit: BoxFit.cover,
             )),
             child: ClipRect(
@@ -45,7 +45,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: [
                         Container(
                           padding: EdgeInsets.fromLTRB(0, 45, 0, 10),
-                          child: Image.asset(
+                          child: Image.network(
                             widget.movie.poster,
                             fit: BoxFit.contain,
                           ),

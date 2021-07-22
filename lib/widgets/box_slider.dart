@@ -39,7 +39,7 @@ List<Widget> makeBoxImages(BuildContext context, List<Movie> movies) {
               }));
             },
             child: Image(
-              image: AssetImage(movies[i].poster),
+              image: NetworkImage(movies[i].poster),
               fit: BoxFit.contain,
             ),
           ),

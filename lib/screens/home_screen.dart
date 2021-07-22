@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/model/move_model.dart';
 import 'package:netflix_clone/widgets/box_slider.dart';
@@ -10,40 +11,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Movie> movies = [
-    Movie.formMap({
-      'title': '상견리',
-      'keyword': '사랑/판타지/로맨스',
-      'poster': 'images/mw2lS4rjo5lt4v2L2tI6xaVJCgM.jpeg',
-      'like': false,
-    }),
-    Movie.formMap({
-      'title': '상견리',
-      'keyword': '사랑/판타지/로맨스',
-      'poster': 'images/mw2lS4rjo5lt4v2L2tI6xaVJCgM.jpeg',
-      'like': true,
-    }),
-    Movie.formMap({
-      'title': '상견리',
-      'keyword': '사랑/판타지/로맨스',
-      'poster': 'images/mw2lS4rjo5lt4v2L2tI6xaVJCgM.jpeg',
-      'like': false,
-    }),
-    Movie.formMap({
-      'title': '상견리',
-      'keyword': '사랑/판타지/로맨스',
-      'poster': 'images/mw2lS4rjo5lt4v2L2tI6xaVJCgM.jpeg',
-      'like': false,
-    })
-  ];
+  final Stream<QuerySnapshot> _moviesStream = FirebaseFirestore.instance.collection('movies').snapshots();
 
   @override
   void initState() {
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  // 데이터 호출
+  Widget _fetchMovies(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _moviesStream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
+        return _buildBody(context, snapshot.data!.docs );
+      },
+    );
+  }
+
+  Widget _buildBody(BuildContext context, List<QueryDocumentSnapshot> snapshot) {
+    List<Movie> movies = snapshot.map((d) => Movie.fromSnapshot(d)).toList();
     return Stack(
       children: [
         ListView(children: [
@@ -58,6 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
         TabBar(),
       ],
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _fetchMovies(context);
   }
 }
 
