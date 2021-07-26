@@ -63,7 +63,7 @@ class _CarouselImageState extends State<CarouselImage> {
                           ? IconButton(
                               onPressed: () {
                                 setState(() {
-                                  likes[_currentPage] = true;
+                                  likes[_currentPage] = false;
                                   movies[_currentPage]
                                       .reference
                                       .update({'like': likes[_currentPage]});
@@ -73,7 +73,7 @@ class _CarouselImageState extends State<CarouselImage> {
                           : IconButton(
                               onPressed: () {
                                 setState(() {
-                                  likes[_currentPage] = false;
+                                  likes[_currentPage] = true;
                                   movies[_currentPage]
                                       .reference
                                       .update({'like': likes[_currentPage]});
