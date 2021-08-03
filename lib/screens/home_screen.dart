@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:netflix_clone/model/current_page_model.dart';
 import 'package:netflix_clone/model/move_model.dart';
+import 'package:netflix_clone/widgets/bottom_bar.dart';
 import 'package:netflix_clone/widgets/box_slider.dart';
 import 'package:netflix_clone/widgets/carousel_Image.dart';
 import 'package:netflix_clone/widgets/circle_slider.dart';
+import 'package:provider/provider.dart';
 
 // 영화 정보, 미리보기 화면
 class HomeScreen extends StatefulWidget {
@@ -31,19 +34,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildBody(BuildContext context, List<QueryDocumentSnapshot> snapshot) {
     List<Movie> movies = snapshot.map((d) => Movie.fromSnapshot(d)).toList();
-    return Stack(
-      children: [
-        ListView(children: [
-          CarouselImage(movies),
-          CircleSlider(
-            movies: movies,
+    return Scaffold(
+      body: SafeArea(
+        child: Consumer<CurrentPage>(
+          builder: (_, page, child) => Stack(
+            children: [
+              ListView(children: [
+                CarouselImage(movies),
+                CircleSlider(
+                  movies: movies,
+                ),
+                BoxSlider(
+                  movies: movies,
+                )
+              ]),
+              TabBar(),
+            ],
           ),
-          BoxSlider(
-            movies: movies,
-          )
-        ]),
-        TabBar(),
-      ],
+        ),
+      ),
+      bottomNavigationBar: BottomBar(),
     );
   }
 

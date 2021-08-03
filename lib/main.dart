@@ -1,15 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:netflix_clone/screens/home_screen.dart';
-import 'package:netflix_clone/screens/like_screen.dart';
-import 'package:netflix_clone/screens/more_screen.dart';
-import 'package:netflix_clone/screens/search_screen.dart';
+import 'package:netflix_clone/model/current_page_model.dart';
 import 'package:netflix_clone/widgets/bottom_bar.dart';
+import 'package:provider/provider.dart';
+
+import 'app_init.dart';
+import 'common/routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CurrentPage())
+      ],
+      child: MyApp())
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -17,33 +23,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late TabController _controller;
-
   @override
-  Widget build(BuildContext contet) {
+  Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Netflix Clone',
         theme: ThemeData(
             brightness: Brightness.dark,
             primaryColor: Colors.black,
             accentColor: Colors.white),
-        home: DefaultTabController(
-          length: 4,
-          child: Scaffold(
-            body: SafeArea(
-              child: TabBarView(
-                // 탭 화면을 마우스 모션으로 변경하지 않겠다는 의미
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  HomeScreen(),
-                  SearchScreen(),
-                  LikeScreen(),
-                  MoreScreen(),
-                ],
-              ),
-            ),
-            bottomNavigationBar: BottomBar(),
-          ),
+        routes: Routes.getAll(),
+        onGenerateRoute: (RouteSettings settings) {
+          print('Route Move!! ${settings.name}');
+        },
+        home: Scaffold(
+          body: AppInit(),
         ));
   }
 }

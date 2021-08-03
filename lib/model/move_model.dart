@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
-class Movie {
+class Movie with ChangeNotifier {
   final String title;
   final String keyword;
   final String poster;
-  final bool like;
+  bool like;
   final DocumentReference reference;
 
   Movie.fromMap(Map<String, dynamic> map, {required this.reference})
@@ -20,4 +21,11 @@ class Movie {
   String toString() {
     return "Movie<$title:$keyword>";
   }
+
+  void changeLike(){
+    like = !like;
+    notifyListeners();
+  }
+
+
 }

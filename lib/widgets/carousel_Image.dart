@@ -1,7 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:netflix_clone/config/routes.dart';
+import 'package:netflix_clone/model/current_page_model.dart';
 import 'package:netflix_clone/model/move_model.dart';
 import 'package:netflix_clone/screens/detail_screen.dart';
+import 'package:provider/provider.dart';
 
 class CarouselImage extends StatefulWidget {
   final List<Movie> movies;
@@ -31,6 +34,8 @@ class _CarouselImageState extends State<CarouselImage> {
 
   @override
   Widget build(BuildContext context) {
+    var page = Provider.of<CurrentPage>(context, listen: false);
+
     return Container(
       child: Column(
         children: [
@@ -119,6 +124,7 @@ class _CarouselImageState extends State<CarouselImage> {
                     children: [
                       IconButton(
                           onPressed: () {
+                            page.changePage(RouteList.detail);
                             Navigator.of(context).push(MaterialPageRoute(
                                 fullscreenDialog: true,
                                 builder: (context) {
